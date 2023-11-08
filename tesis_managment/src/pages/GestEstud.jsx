@@ -109,7 +109,7 @@ const GestEstud = () => {
                 </tr>
               ))}
             </tbody>
-          </Table>{" "}
+          </Table>
         </Container>
       </div>
       <Pagination

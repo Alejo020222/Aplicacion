@@ -2,13 +2,13 @@ import { Link, NavLink } from "react-router-dom";
 import { Table, Pagination, Button } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { getAllDocument } from "../api/Tesis.api";
-import { getAllEstudent, getEstudent } from "../api/Estudiantes.api";
+import { getAllEstudent } from "../api/Estudiantes.api";
 import { getAllProfesor } from "../api/Profesores.api";
 
 const Repositorio = () => {
   const [document, setDocument] = useState([]);
   const [student, setStudent] = useState([]);
-  const [profesor, setProfesor] = useState([]);
+
   /////////////////////////////////////////////////////////////
   useEffect(() => {
     async function loadDocument() {
