@@ -1,0 +1,42 @@
+[
+  {
+    "fecha": "2023-01-15",
+    "id": "24",
+    "nombreTesis": "Análisis predictivo del mercado de valores con machine learning",
+    "autores": "Juan Pérez, María González",
+    "tutor": "Dra. Ana López",
+    "resumen": "El resumen de una tesis es un texto breve y preciso que sintetiza los aspectos centrales del trabajo. Es el primer apartado de la tesis y por tanto lo primero que leen los lectores. El resumen debe explicar el tema de la tesis y captar el interés del lector. Los objetivos del resumen son: explicar el tema de la tesis, captar el interés del lector, presentar los principales resultados y conclusiones, y destacar las fortalezas del trabajo presentado. Es importante que el resumen esté bien redactado y transmita la información correcta sobre la tesis."
+  },
+  {
+    "fecha": "2023-02-01",
+    "id": "25",
+    "nombreTesis": "Desarrollo de una red neuronal convolucional para detección de objetos",
+    "autores": "Luis Martín",
+    "tutor": "Dr. Manuel Fernández",
+    "resumen": "El resumen de una tesis es un texto breve y preciso que sintetiza los aspectos centrales del trabajo. Es el primer apartado de la tesis y por tanto lo primero que leen los lectores. El resumen debe explicar el tema de la tesis y captar el interés del lector. Los objetivos del resumen son: explicar el tema de la tesis, captar el interés del lector, presentar los principales resultados y conclusiones, y destacar las fortalezas del trabajo presentado. Es importante que el resumen esté bien redactado y transmita la información correcta sobre la tesis."
+  },
+  {
+    "fecha": "2023-03-15",
+    "id": "34",
+    "nombreTesis": "Sistema experto para diagnóstico médico basado en reglas",
+    "autores": "Sara Sánchez, Pablo Rodríguez",
+    "tutor": "Dr. Javier Ruiz",
+    "resumen": "El resumen de una tesis es un texto breve y preciso que sintetiza los aspectos centrales del trabajo. Es el primer apartado de la tesis y por tanto lo primero que leen los lectores. El resumen debe explicar el tema de la tesis y captar el interés del lector. Los objetivos del resumen son: explicar el tema de la tesis, captar el interés del lector, presentar los principales resultados y conclusiones, y destacar las fortalezas del trabajo presentado. Es importante que el resumen esté bien redactado y transmita la información correcta sobre la tesis."
+  },
+  {
+    "fecha": "2023-04-01",
+    "id": "48",
+    "nombreTesis": "Simulación de redes neuronales recurrentes con TensorFlow",
+    "autores": "Daniel Gómez",
+    "tutor": "Dra. Rosa López",
+    "resumen": "El resumen de una tesis es un texto breve y preciso que sintetiza los aspectos centrales del trabajo. Es el primer apartado de la tesis y por tanto lo primero que leen los lectores. El resumen debe explicar el tema de la tesis y captar el interés del lector. Los objetivos del resumen son: explicar el tema de la tesis, captar el interés del lector, presentar los principales resultados y conclusiones, y destacar las fortalezas del trabajo presentado. Es importante que el resumen esté bien redactado y transmita la información correcta sobre la tesis."
+  },
+  {
+    "fecha": "2023-05-15",
+    "id": "14",
+    "nombreTesis": "Aplicación de deep learning para generación automática de texto",
+    "autores": "Alejandro Martín, Lucía Gutiérrez",
+    "tutor": "Dr. Alberto Sánchez",
+    "resumen": "El resumen de una tesis es un texto breve y preciso que sintetiza los aspectos centrales del trabajo. Es el primer apartado de la tesis y por tanto lo primero que leen los lectores. El resumen debe explicar el tema de la tesis y captar el interés del lector. Los objetivos del resumen son: explicar el tema de la tesis, captar el interés del lector, presentar los principales resultados y conclusiones, y destacar las fortalezas del trabajo presentado. Es importante que el resumen esté bien redactado y transmita la información correcta sobre la tesis."
+  }
+]
