@@ -1,15 +1,18 @@
 import { Link, NavLink } from "react-router-dom";
 import { Table, Pagination, Button } from "react-bootstrap";
 import { useEffect, useState } from "react";
-import { getAllDocument } from "../api/Tesis.api";
+import { deleteDocument, getAllDocument } from "../api/Tesis.api";
 import { getAllEstudent } from "../api/Estudiantes.api";
 import { getAllProfesor } from "../api/Profesores.api";
+import ConfirModal from "./modal/ConfirmModal";
 // import { getAllProfesor } from "../api/Profesores.api";
 
 const Repositorio = () => {
   const [document, setDocument] = useState([]);
   const [student, setStudent] = useState([]);
   const [profesor, setProfesor] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [deleteID, setDeleteID] = useState();
   /////////////////////////////////////////////////////////////
   useEffect(() => {
     async function loadDocument() {
@@ -42,6 +45,17 @@ const Repositorio = () => {
     return `${res.nombre} ${res.apellidos}`;
   }
   /////////////////////////////////////////////////////////////
+  const handleShowModal = (id) => {
+    console.log(id);
+    setDeleteID(id);
+    setShowModal(true);
+  };
+
+  const handleDelete = async () => {
+    await deleteDocument(deleteID);
+    location.reload();
+    setShowModal(false);
+  };
   /////////////////////////////////////////////////////////////
   /////////////////////////////////////////////////////////////
   /////////////////////////////////////////////////////////////
@@ -73,6 +87,13 @@ const Repositorio = () => {
         <h1>Cargando datos...</h1>
       ) : (
         <>
+          {
+            <ConfirModal
+              show={showModal}
+              onClose={() => setShowModal(false)}
+              handleConfirm={handleDelete}
+            />
+          }
           <div className="table-responsive mt-4 p-3">
             <Table bordered striped hover className="mt-4">
               <thead>
@@ -130,7 +151,9 @@ const Repositorio = () => {
                       <Button
                         variant="danger"
                         className="m-2"
-                        onClick={() => {}}
+                        onClick={async () => {
+                          handleShowModal(document.id);
+                        }}
                       >
                         Eliminar
                       </Button>

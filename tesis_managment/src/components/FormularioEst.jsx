@@ -143,6 +143,7 @@ const FormularioEst = () => {
             </Form.Text>
           )}
         </Form.Group>
+
         <div className="d-flex">
           <Form.Group controlId="year" className="mt-3 col-lg-6 pe-2">
             <Form.Label>Año del Estudiante:</Form.Label>
