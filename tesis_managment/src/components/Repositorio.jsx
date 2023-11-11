@@ -1,4 +1,4 @@
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { Table, Pagination, Button } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { deleteDocument, getAllDocument } from "../api/Tesis.api";
@@ -46,7 +46,6 @@ const Repositorio = () => {
   }
   /////////////////////////////////////////////////////////////
   const handleShowModal = (id) => {
-    console.log(id);
     setDeleteID(id);
     setShowModal(true);
   };
@@ -62,15 +61,14 @@ const Repositorio = () => {
 
   const [paginaActual, setPaginaActual] = useState(1);
   const elementosPorPagina = 10;
-
-  const paginacion = (pagina) => {
-    setPaginaActual(pagina);
-  };
-
   const totalPaginas = Math.ceil(student.length / elementosPorPagina);
   const inicio = (paginaActual - 1) * elementosPorPagina;
   const fin = inicio + elementosPorPagina;
   const datosPaginados = document.slice(inicio, fin);
+
+  const paginacion = (pagina) => {
+    setPaginaActual(pagina);
+  };
 
   /////////////////////////////////////////////////////////////
   // console.log(estudiantesOptions);
@@ -109,36 +107,36 @@ const Repositorio = () => {
                 {datosPaginados.map((document) => (
                   <tr style={{ cursor: "pointer" }} key={document.id}>
                     <td>
-                      <Link
+                      <NavLink
                         to={`/tesis/document/${document.id}`}
                         style={{ color: "inherit", textDecoration: "none" }}
                       >
                         {document.nombre}
-                      </Link>
+                      </NavLink>
                     </td>
                     <td>
-                      <Link
+                      <NavLink
                         to={`/tesis/document/${document.id}`}
                         style={{ color: "inherit", textDecoration: "none" }}
                       >
                         {document.fecha}
-                      </Link>
+                      </NavLink>
                     </td>
                     <td>
-                      <Link
+                      <NavLink
                         to={`/tesis/document/${document.id}`}
                         style={{ color: "inherit", textDecoration: "none" }}
                       >
                         {`${buscarEst(document.est)}`}
-                      </Link>
+                      </NavLink>
                     </td>
                     <td>
-                      <Link
+                      <NavLink
                         to={`/tesis/document/${document.id}`}
                         style={{ color: "inherit", textDecoration: "none" }}
                       >
                         {`${buscarProf(document.profesor)}`}
-                      </Link>
+                      </NavLink>
                     </td>
                     <td className="d-flex lg-col-6">
                       <NavLink

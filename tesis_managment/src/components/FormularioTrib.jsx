@@ -50,7 +50,7 @@ const FormularioTrib = () => {
         setValue("secretario", res.data.secretario);
         setValue("vocal", res.data.vocal);
         setValue("oponente", res.data.oponente);
-        console.log(res.data);
+        console.log(res.data.presidente);
       } else {
         console.log("no hay id");
       }
@@ -111,6 +111,13 @@ const FormularioTrib = () => {
             name="presidente"
             control={control}
             rules={{ required: true }}
+            // defaultValue={
+            //   !params.id
+            //     ? profesorOptions.find(
+            //         (presidente) => presidente.value === profesorOptions
+            //       )
+            //     : console.log(profesorOptions.)
+            // }
             render={({ field }) => (
               <Select
                 {...field}

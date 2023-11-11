@@ -1,13 +1,12 @@
-// import { addDocument } from "../api/Tesis.api";
 import { getAllEstudent } from "../api/Estudiantes.api";
 import { getAllProfesor } from "../api/Profesores.api";
 import { getAllTribunal } from "../api/Tribunales.api";
 import { addDocument, getDocument, updateDocument } from "../api/Tesis.api";
 import { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
-import Select from "react-select";
 import { useNavigate, useParams } from "react-router-dom";
-import { Form, Button } from "react-bootstrap";
+import Select from "react-select";
+import { Button } from "react-bootstrap";
 
 const Formulario = () => {
   const [dataEstudent, setDataEstudent] = useState([]);
@@ -89,7 +88,10 @@ const Formulario = () => {
   //////////////////////////////////////////////////////////////////////////
   useEffect(() => {
     async function loadDocument() {
-      if (params.tesisId) {
+      if (!params.tesisId) {
+        console.log("no hay id");
+      } else {
+        params.tesisId;
         const res = await getDocument(params.tesisId);
 
         setValue("nombre", res.data.nombre);
@@ -100,8 +102,6 @@ const Formulario = () => {
         setValue("profesor", res.data.profesor);
         setValue("tribunal", res.data.tribunal);
         setValue("est", res.data.est);
-      } else {
-        console.log("no hay id");
       }
     }
     loadDocument();
@@ -141,41 +141,40 @@ const Formulario = () => {
   console.log(tribunalActual);
   return (
     <>
-      {estudianteActual !== undefined &&
-      tutorActual !== undefined &&
-      tribunalActual !== undefined ? (
+      {estudianteActual === null ||
+      tutorActual === null ||
+      tribunalActual === null ? (
         <h1 className="text-center">Cargando Formulario.....</h1>
       ) : (
         <>
-          <Form className="mx-auto col-lg-6 mt-3" onSubmit={onSubmit}>
-            <Form.Group className="mt-3">
-              <Form.Label>Fecha:</Form.Label>
-              <Form.Control
+          <form className="mx-auto col-lg-6 mt-3" onSubmit={onSubmit}>
+            <div className="form-group mt-3">
+              <label htmlFor="fecha">Fecha:</label>
+              <input
                 type="date"
+                className="form-control"
+                id="fecha"
                 {...register("fecha", { required: true })}
               />
               {errors.fecha && (
-                <Form.Text className="text-danger">
-                  Este campo es necesario
-                </Form.Text>
+                <span className="text-danger">Este campo es necesario</span>
               )}
-            </Form.Group>
+            </div>
 
-            <Form.Group className="mt-3">
-              <Form.Label>Nombre de Tesis:</Form.Label>
-              <Form.Control
+            <div className="form-group  mt-3">
+              <label htmlFor="nombre">Nombre de Tesis:</label>
+              <input
                 type="text"
+                className="form-control"
+                id="nombre"
                 {...register("nombre", { required: true })}
               />
               {errors.nombre && (
-                <Form.Text className="text-danger">
-                  Este campo es necesario
-                </Form.Text>
+                <span className="text-danger">Este campo es necesario</span>
               )}
-            </Form.Group>
-
-            <Form.Group className="mt-3">
-              <Form.Label>Nombre de Estudiante:</Form.Label>
+            </div>
+            <div className="form-group  mt-3">
+              <label htmlFor="estudiante">Nombre de Estudiante:</label>
               <Controller
                 name="estudiante"
                 control={control}
@@ -184,7 +183,7 @@ const Formulario = () => {
                   <Select
                     {...field}
                     options={estudiantesOptions}
-                    // issearchable={true}
+                    isSearchable={true}
                     placeholder="Selecciona un Estudiante"
                     defaultValue={
                       params.tesisId
@@ -198,14 +197,12 @@ const Formulario = () => {
                 )}
               />
               {errors.est && (
-                <Form.Text className="text-danger">
-                  Este campo es necesario
-                </Form.Text>
+                <span className="text-danger">Este campo es necesario</span>
               )}
-            </Form.Group>
-            <div className="d-flex">
-              <Form.Group className="mt-3 col-lg-6 pe-2">
-                <Form.Label>Tutor:</Form.Label>
+            </div>
+            <div className="form-group d-flex mt-3">
+              <div className="form-group col-lg-6 pe-1">
+                <label htmlFor="tutor">Tutor:</label>
                 <Controller
                   name="profesor"
                   control={control}
@@ -214,97 +211,70 @@ const Formulario = () => {
                     <Select
                       {...field}
                       options={profesorOptions}
-                      // issearchable={true}
+                      isSearchable={true}
                       placeholder="Selecciona un profesor"
-                      defaultValue={
-                        params.tesisId
-                          ? profesorOptions.find(
-                              (profesor) => profesor.value === tutorActual
-                            )
-                          : null
-                      }
                     />
                   )}
                 />
                 {errors.profesor && (
-                  <Form.Text className="text-danger">
-                    Este campo es necesario
-                  </Form.Text>
+                  <span className="text-danger">Este campo es necesario</span>
                 )}
-              </Form.Group>
-
-              <Form.Group className="mt-3 col-lg-6 ps-2">
-                <Form.Label>Co-Tutor:</Form.Label>
-                <Form.Control
+              </div>
+              <div className="form-group col-lg-6 ps-1">
+                <label htmlFor="cotutor">Co-Tutor:</label>
+                <input
                   type="text"
+                  className="form-control"
+                  id="cotutor"
                   {...register("cotutor", { required: true })}
                 />
-                {errors.cotutor && (
-                  <Form.Text className="text-danger">
-                    Este campo es necesario
-                  </Form.Text>
-                )}
-              </Form.Group>
+              </div>
             </div>
-            <div className="d-flex">
-              <Form.Group className="mt-3 col-lg-6 pe-2">
-                <Form.Label>URL de la Tesis:</Form.Label>
-                <Form.Control
+            <div className="form-group d-flex mt-3">
+              <div className="form-group col-lg-6 pe-1">
+                <label htmlFor="url">URL:</label>
+                <input
                   type="url"
+                  className="form-control"
+                  id="url"
                   {...register("url", { required: true })}
                 />
                 {errors.url && (
-                  <Form.Text className="text-danger">
-                    Este campo es necesario
-                  </Form.Text>
+                  <span className="text-danger">Este campo es necesario</span>
                 )}
-              </Form.Group>
-
-              <Form.Group className="mt-3 col-lg-6 ps-2">
-                <Form.Label>Tribunal:</Form.Label>
+              </div>
+              <div className="form-group col-lg-6 ps-1">
+                <label htmlFor="tribunal">Tribunal:</label>
                 <Controller
                   name="tribunal"
                   control={control}
                   rules={{ required: true }}
                   render={({ field }) => (
-                    <Form.Select
+                    <Select
                       {...field}
                       options={tribunalOptions}
-                      // issearchable={true}
+                      isSearchable={true}
                       placeholder="Selecciona un Tribunal"
-                      // defaultValue={
-                      //   params.tesisId
-                      //     ? tribunalOptions.find(
-                      //         (tribunal) => tribunal.value === tribunalActual
-                      //       )
-                      //     : null
-                      // }
                     />
                   )}
                 />
                 {errors.tribunal && (
-                  <Form.Text className="text-danger">
-                    Este campo es necesario
-                  </Form.Text>
+                  <span className="text-danger">Este campo es necesario</span>
                 )}
-              </Form.Group>
+              </div>
             </div>
-
-            <Form.Group className="mt-3">
-              <Form.Label>Resumen:</Form.Label>
-              <Form.Control
-                as="textarea"
+            <div className="form-group  mt-3">
+              <label htmlFor="resumen">Resumen:</label>
+              <textarea
                 id="resumen"
-                rows={3}
+                rows="3"
+                className="form-control"
                 {...register("resumen", { required: true })}
               />
               {errors.resumen && (
-                <Form.Text className="text-danger">
-                  Este campo es necesario
-                </Form.Text>
+                <span className="text-danger">Este campo es necesario</span>
               )}
-            </Form.Group>
-
+            </div>
             <div className="form-group d-flex mt-3 justify-content-end">
               <Button
                 type="button"
@@ -318,7 +288,7 @@ const Formulario = () => {
               </Button>
               {params.tesisId ? (
                 <Button type="submit" variant="success" className="m-2">
-                  Editar Profesor
+                  Editar Tesis
                 </Button>
               ) : (
                 <Button type="submit" variant="success" className="m-2">
@@ -326,7 +296,7 @@ const Formulario = () => {
                 </Button>
               )}
             </div>
-          </Form>
+          </form>
         </>
       )}
     </>

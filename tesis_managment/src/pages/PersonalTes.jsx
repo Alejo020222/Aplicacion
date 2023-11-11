@@ -1,111 +1,83 @@
-import { getAllEstudent } from "../api/Estudiantes.api";
-import { getAllDocument } from "../api/Tesis.api";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { getDocument } from "../api/Tesis.api";
+import { getEstudent } from "../api/Estudiantes.api";
+import { getProfesor } from "../api/Profesores.api";
+import { getTribunal } from "../api/Tribunales.api";
 
-import { useState, useEffect } from "react";
 const PersonalTes = () => {
-  const [estudent, setEstudent] = useState([]);
+  const params = useParams();
   const [document, setDocument] = useState([]);
-  useEffect(() => {
-    async function loadEstudent() {
-      const res = await getAllEstudent();
-      setEstudent(res.data);
-    }
-    loadEstudent();
-  }, []);
+  const [estudiante, setEstudiante] = useState([]);
+  const [profesor, setProfesor] = useState([]);
+  const [tribunal, setTribunal] = useState([]);
+  //////////////////////////////////////////////////////////
 
   useEffect(() => {
-    async function loadDocument() {
-      const res = await getAllDocument();
+    async function tesisActual(params) {
+      const res = await getDocument(params.tesisId);
       setDocument(res.data);
-    }
-    loadDocument();
-  }, []);
 
+      async function nombreEst(document) {
+        const res = await getEstudent(document.est);
+        setEstudiante(res.data);
+      }
+
+      nombreEst(res.data);
+      async function nombreEProf(document) {
+        const res = await getProfesor(document.profesor);
+        setProfesor(res.data);
+      }
+
+      nombreEProf(res.data);
+
+      async function nombtribunales(document) {
+        const res = await getTribunal(document.tribunal);
+        setTribunal(res.data);
+        console.log(tribunal);
+      }
+      nombtribunales(res.data);
+    }
+
+    tesisActual(params);
+  }, [params]);
+
+  //////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////
+  // console.log(estudiante.nombre, profesor.nombre, document.nombre);
   return (
-    <>
-      {estudent.map((estudiantes) => (
-        <div key={estudiantes.id}>
-          <h1>{estudiantes.nombre}</h1>
-        </div>
-      ))}
-      {document.map((document) => (
-        <div key={document.id}>
-          <h1>{document.nombre}</h1>
-        </div>
-      ))}
-    </>
+    <div className="container">
+      <div className="">
+        <h3>Fecha de Entrega:</h3>
+        <h5>{document.fecha}</h5>
+
+        <h3>Nombre del Documento:</h3>
+        <h5>{document.nombre}</h5>
+
+        <h3>Nombre del Estudiante:</h3>
+        <h5>
+          {estudiante.nombre} {estudiante.apellidos}
+        </h5>
+
+        <h3 className="">Nombre del Tutor:</h3>
+        <h5>
+          {profesor.nombre} {profesor.apellidos}
+        </h5>
+
+        <h3 className="">Nombre del Co-Tutor:</h3>
+        <h5>{document.cotutor}</h5>
+
+        <h3>Tribunal Asignado:</h3>
+        <h5>
+          Presidente: {tribunal.presidente}, Secretario: {tribunal.secretario},
+          Vocal: {tribunal.vocal}, Oponente: {tribunal.oponente}
+        </h5>
+
+        <h3>Resumen del Documento:</h3>
+        <h5>{document.resumen}</h5>
+      </div>
+    </div>
   );
 };
 
 export default PersonalTes;
-
-// black box
-//
-//
-//
-//  // const buscarTesis = (tesisId) => {
-//   const resultado = tesis.filter((tesis) => tesis.id === tesisId);
-//   useTesisStore.getState();
-// };
-
-// useEffect(() => {
-//   const buscarTesis = () => {
-//     const tesisEncontrada = useTesisStore
-//       .getState()
-//       .find((openTesis) => openTesis.id === tesisId);
-//     setOpenTesis(tesisEncontrada);
-//   };
-
-//   buscarTesis();
-// }, [tesisId]);
-
-//   const buscarTesis = (tesisId) => {
-//     const nuevasTesis = tesis.filter((tesis) => tesis.id === tesisId);
-//     useTesisStore.getState().setTesis(nuevasTesis);
-//     setOpenTesis(nuevasTesis);
-//   };
-//   setOpenTesis(buscarTesis);
-
-//   const buscarTesis = (tesisId) => {
-//     const nuevasTesis = tesis.find((tesis) => tesis.id === tesisId);
-//     useTesisStore.getState().setTesis(nuevasTesis);
-//   };
-
-//   console.log(openTesis);
-//   console.log(tesis);
-//
-//
-//
-//
-//
-//
-//
-//     <>
-//       <div className="px-4">
-//         <div>
-//           <h6>ID de registro:</h6>
-//           <p className="px-2">{tesisId}</p>
-//           <p className="px-2">{}</p>
-//         </div>
-//         <div>
-//           <h6>Nombre de la Tesis:</h6>
-//           <p className="px-2">{}</p>
-//         </div>
-//         <div>
-//           <h6>Nombre de Autor(es):</h6>
-//           <p className="px-2">{}</p>
-//         </div>
-//         <div>
-//           <h6>Fecha de Agregada:</h6>
-//           <p className="px-2">{}</p>
-//         </div>
-//         <div>
-//           <h6>Nombre de Tutor:</h6>
-//           <p className="px-2">{}</p>
-//         </div>
-//         <div>
-//           <h6>Resumen de la Tesis:</h6>
-//           <p className="px-2">{}</p>
-//         </div>
-//       </div>
-//     </>
