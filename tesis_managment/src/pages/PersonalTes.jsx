@@ -5,12 +5,17 @@ import { getEstudent } from "../api/Estudiantes.api";
 import { getProfesor } from "../api/Profesores.api";
 import { getTribunal } from "../api/Tribunales.api";
 
+import MenuAcord from "../components/MenuAcord";
+
 const PersonalTes = () => {
   const params = useParams();
   const [document, setDocument] = useState([]);
   const [estudiante, setEstudiante] = useState([]);
   const [profesor, setProfesor] = useState([]);
   const [tribunal, setTribunal] = useState([]);
+  //////////////////////////////////////////////////////////
+
+  //////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////
 
   useEffect(() => {
@@ -34,7 +39,6 @@ const PersonalTes = () => {
       async function nombtribunales(document) {
         const res = await getTribunal(document.tribunal);
         setTribunal(res.data);
-        console.log(tribunal);
       }
       nombtribunales(res.data);
     }
@@ -46,37 +50,66 @@ const PersonalTes = () => {
   //////////////////////////////////////////////////////////
   // console.log(estudiante.nombre, profesor.nombre, document.nombre);
   return (
-    <div className="container">
-      <div className="">
-        <h3>Fecha de Entrega:</h3>
-        <h5>{document.fecha}</h5>
-
-        <h3>Nombre del Documento:</h3>
-        <h5>{document.nombre}</h5>
-
-        <h3>Nombre del Estudiante:</h3>
-        <h5>
-          {estudiante.nombre} {estudiante.apellidos}
-        </h5>
-
-        <h3 className="">Nombre del Tutor:</h3>
-        <h5>
-          {profesor.nombre} {profesor.apellidos}
-        </h5>
-
-        <h3 className="">Nombre del Co-Tutor:</h3>
-        <h5>{document.cotutor}</h5>
-
-        <h3>Tribunal Asignado:</h3>
-        <h5>
-          Presidente: {tribunal.presidente}, Secretario: {tribunal.secretario},
-          Vocal: {tribunal.vocal}, Oponente: {tribunal.oponente}
-        </h5>
-
-        <h3>Resumen del Documento:</h3>
-        <h5>{document.resumen}</h5>
+    <>
+      <div className="container border border-3 border-black-subtle bg-opacity-10 rounded-4 shadow-lg">
+        <div className="p-4">
+          <div className="d-flex my-auto">
+            <h4 className=" text-uppercase">Fecha de Entrega:</h4>
+            <span className="ps-3  h4 fw-lighter ">{document.fecha}</span>
+          </div>
+          <div className="d-flex my-auto">
+            <h4 className=" text-uppercase">Nombre del Documento:</h4>
+            <span className="ps-3 h4 fw-lighter">{document.nombre}</span>
+          </div>
+          <div className="d-flex my-auto">
+            <h4 className="mt-2 text-uppercase">Nombre del Estudiante:</h4>
+            <span className="ps-3 mt-auto h4 fw-lighter">
+              {estudiante.nombre} {estudiante.apellidos}
+            </span>
+          </div>
+          <div className="d-flex my-auto">
+            <h4 className="mt-2 text-uppercase">Nombre del Tutor:</h4>
+            <span className="ps-3 mt-auto h4 fw-lighter">
+              {profesor.nombre} {profesor.apellidos}
+            </span>
+          </div>
+          <div className="d-flex my-auto">
+            <h4 className="mt-2 text-uppercase">Nombre del Co-Tutor:</h4>
+            <span className="ps-3 mt-auto h4 fw-lighter">
+              {document.cotutor}
+            </span>
+          </div>
+          <h4 className="mt-2 text-uppercase">Tribunal Asignado:</h4>
+          <div className="d-flex h6 container">
+            <div className="col-lg-3">
+              <h6 className="text-uppercase">Presidente:</h6>
+              <p className="fw-lighter">{tribunal.presidente}</p>
+            </div>
+            <div className="col-lg-3">
+              <h6 className="text-uppercase">Secretario:</h6>
+              <p className="fw-lighter">{tribunal.secretario}</p>
+            </div>
+            <div className=" col-lg-3">
+              <h6 className="text-uppercase">Vocal:</h6>
+              <p className="fw-lighter"> {tribunal.vocal}</p>
+            </div>
+            <div className=" col-lg-3">
+              <h6 className="text-uppercase">Oponente:</h6>
+              <p className="fw-lighter">{tribunal.oponente}</p>
+            </div>
+          </div>
+          <h4 className="mt-2 text-uppercase">Resumen del Documento:</h4>
+          <span className="mt-auto h4 fw-lighter">{document.resumen}</span>
+        </div>
       </div>
-    </div>
+      <div className="container mt-5 mb-4">
+        <div className="row justify-content-center">
+          <MenuAcord params={params} />
+        </div>
+      </div>
+
+      {/* <EventModal className="" showModal={showModal} /> */}
+    </>
   );
 };
 

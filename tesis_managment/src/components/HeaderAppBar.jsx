@@ -64,9 +64,9 @@ const HeaderAppBar = () => {
       <nav className="navbar navbar-expand-lg mb-5 bg-body-tertiary navbar-expand-lg bg-light navbar-light shadow-lg">
         <div className="container-fluid">
           <NavLink className="navbar-brand text-primary" to="/">
-            <h2>
+            <h1>
               Gestión de Tesis <span className="text-dark">Facultad 2</span>
-            </h2>
+            </h1>
           </NavLink>
           <button
             className="navbar-toggler"
@@ -83,7 +83,7 @@ const HeaderAppBar = () => {
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item mx-2">
                 <NavLink
-                  className="nav-link active"
+                  className="nav-link active ps-5"
                   aria-current="page"
                   to="/repositorio"
                 >
@@ -92,7 +92,7 @@ const HeaderAppBar = () => {
               </li>
               <li className="nav-item mx-2">
                 <NavLink
-                  className="nav-link active"
+                  className="nav-link active btn btn-light"
                   aria-current="page"
                   to="/tesis"
                 >
@@ -101,8 +101,7 @@ const HeaderAppBar = () => {
               </li>
               <li className="nav-item dropdown">
                 <a
-                  className="nav-link active dropdown-toggle mx-2"
-                  href="#"
+                  className="nav-link active dropdown-toggle mx-2 h2"
                   role="button"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
