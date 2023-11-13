@@ -34,8 +34,6 @@ const EventModal = ({ showModal, params }) => {
   ///////////////////////////////////////////////////////
 
   const onSubmit = handleSubmit(async (data) => {
-    console.log(data.documento[0]);
-    console.log(documentoActual);
     const formData = new FormData();
     formData.append("fecha", data.fecha);
     formData.append("evaluacion", data.evaluacion);
@@ -48,7 +46,7 @@ const EventModal = ({ showModal, params }) => {
   ///////////////////////////////////////////////////////
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
+      <Button className="col-lg-6 btn-primary" onClick={handleShow}>
         Agregar Corte
       </Button>
 
@@ -59,7 +57,7 @@ const EventModal = ({ showModal, params }) => {
         <Modal.Body>
           <Form onSubmit={onSubmit} encType="multipart/form-data">
             <Form.Group className="mb-3" controlId="fecha">
-              <Form.Label>Fechadel Corte:</Form.Label>
+              <Form.Label>Fecha del Corte:</Form.Label>
               <Form.Control
                 type="date"
                 {...register("fecha", { required: true })}
@@ -71,7 +69,7 @@ const EventModal = ({ showModal, params }) => {
               )}
             </Form.Group>
             <Form.Group className="mb-3" controlId="evaluacion">
-              <Form.Label>Evaluacion del Corte:</Form.Label>
+              <Form.Label>Evaluación del Corte:</Form.Label>
               <Form.Control
                 type="number"
                 max={5}
@@ -124,7 +122,12 @@ const EventModal = ({ showModal, params }) => {
               Editar Estudiante
             </Button>
           ) : ( */}
-              <Button type="submit" variant="success" className="m-2">
+              <Button
+                type="submit"
+                variant="success"
+                className="m-2"
+                onClick={handleClose}
+              >
                 Guardar
               </Button>
               {/* )} */}

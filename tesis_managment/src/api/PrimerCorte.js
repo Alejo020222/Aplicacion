@@ -1,5 +1,8 @@
 import axios from "axios";
 
+export const getAllPrimCort = () => {
+  return axios.get("http://localhost:8000/PrimerCorte/");
+};
 export const addPrimerCort = (primerCorte) => {
   return axios.post("http://localhost:8000/PrimerCorte/", primerCorte);
 };
