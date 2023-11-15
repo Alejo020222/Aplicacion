@@ -2,12 +2,13 @@ import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
-import { addPrimerCort } from "../../../api/PrimerCorte";
 import { useForm } from "react-hook-form";
+import { addDefensa } from "../../../api/Defensa";
+
 // import { getDocument } from "../../../api/Tesis.api";
 
 // eslint-disable-next-line react/prop-types
-const EventModal = ({ showModal, params }) => {
+const EventDefensa = ({ showModal, params }) => {
   const [documentoActual] = useState(params);
   const [show, setShow] = useState(showModal);
   const {
@@ -22,13 +23,13 @@ const EventModal = ({ showModal, params }) => {
   ///////////////////////////////////////////////////////
 
   const onSubmit = handleSubmit(async (data) => {
-    const formData = new FormData();
-    formData.append("fecha", data.fecha);
-    formData.append("evaluacion", data.evaluacion);
-    formData.append("recomendaciones", data.recomendaciones);
-    formData.append("documento", data.documento[0]);
-    formData.append("doc", documentoActual.tesisId);
-    await addPrimerCort(formData);
+    const formData = {
+      fecha: data.fecha,
+      evaluacion: data.evaluacion,
+      url: data.url,
+      doc: documentoActual.tesisId,
+    };
+    await addDefensa(formData);
     location.reload();
   });
 
@@ -36,17 +37,17 @@ const EventModal = ({ showModal, params }) => {
   return (
     <>
       <Button className="col-lg-6 btn-primary" onClick={handleShow}>
-        Agregar Primer Corte
+        Agregar Defensa
       </Button>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Agregar Primer Corte</Modal.Title>
+          <Modal.Title>Agregar Defensa</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form onSubmit={onSubmit} encType="multipart/form-data">
+          <Form onSubmit={onSubmit}>
             <Form.Group className="mb-3" controlId="fecha">
-              <Form.Label>Fecha del Primer Corte:</Form.Label>
+              <Form.Label>Fecha de la Defensa:</Form.Label>
               <Form.Control
                 type="date"
                 {...register("fecha", { required: true })}
@@ -58,7 +59,7 @@ const EventModal = ({ showModal, params }) => {
               )}
             </Form.Group>
             <Form.Group className="mb-3" controlId="evaluacion">
-              <Form.Label>Evaluación del Primer Corte:</Form.Label>
+              <Form.Label>Evaluación de la Defensa:</Form.Label>
               <Form.Control
                 type="number"
                 max={5}
@@ -72,26 +73,13 @@ const EventModal = ({ showModal, params }) => {
                 </Form.Text>
               )}
             </Form.Group>
-            <Form.Group className="mb-3" controlId="documento">
-              <Form.Label>Agrega un Documento</Form.Label>
+            <Form.Group className="mb-3" controlId="url">
+              <Form.Label>URL Oficial:</Form.Label>
               <Form.Control
-                type="file"
-                {...register("documento", { required: true })}
+                type="url"
+                {...register("url", { required: true })}
               />
-              {errors.documento && (
-                <Form.Text className="text-danger">
-                  Este campo es necesario
-                </Form.Text>
-              )}
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="recomendaciones">
-              <Form.Label>Recomendaciones del Primer Corte:</Form.Label>
-              <Form.Control
-                as="textarea"
-                rows={3}
-                {...register("recomendaciones", { required: true })}
-              />
-              {errors.recomendaciones && (
+              {errors.url && (
                 <Form.Text className="text-danger">
                   Este campo es necesario
                 </Form.Text>
@@ -115,11 +103,8 @@ const EventModal = ({ showModal, params }) => {
                 type="submit"
                 variant="success"
                 className="m-2"
-                onClick={() => {
-                  if (!Object.keys(errors).length) {
-                    handleClose();
-                  }
-                }}
+                onClick={handleClose}
+                disabled={Object.keys(errors).length > 0}
               >
                 Guardar
               </Button>
@@ -132,4 +117,4 @@ const EventModal = ({ showModal, params }) => {
   );
 };
 
-export default EventModal;
+export default EventDefensa;

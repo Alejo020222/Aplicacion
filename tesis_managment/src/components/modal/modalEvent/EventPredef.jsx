@@ -2,12 +2,12 @@ import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
-import { addPrimerCort } from "../../../api/PrimerCorte";
 import { useForm } from "react-hook-form";
+import { addPredefensa } from "../../../api/Predefensa";
 // import { getDocument } from "../../../api/Tesis.api";
 
 // eslint-disable-next-line react/prop-types
-const EventModal = ({ showModal, params }) => {
+const EventPredef = ({ showModal, params }) => {
   const [documentoActual] = useState(params);
   const [show, setShow] = useState(showModal);
   const {
@@ -28,7 +28,7 @@ const EventModal = ({ showModal, params }) => {
     formData.append("recomendaciones", data.recomendaciones);
     formData.append("documento", data.documento[0]);
     formData.append("doc", documentoActual.tesisId);
-    await addPrimerCort(formData);
+    await addPredefensa(formData);
     location.reload();
   });
 
@@ -36,17 +36,17 @@ const EventModal = ({ showModal, params }) => {
   return (
     <>
       <Button className="col-lg-6 btn-primary" onClick={handleShow}>
-        Agregar Primer Corte
+        Agregar Predefensa
       </Button>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Agregar Primer Corte</Modal.Title>
+          <Modal.Title>Agregar Predefensa</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={onSubmit} encType="multipart/form-data">
             <Form.Group className="mb-3" controlId="fecha">
-              <Form.Label>Fecha del Primer Corte:</Form.Label>
+              <Form.Label>Fecha de la Predefensa:</Form.Label>
               <Form.Control
                 type="date"
                 {...register("fecha", { required: true })}
@@ -58,7 +58,7 @@ const EventModal = ({ showModal, params }) => {
               )}
             </Form.Group>
             <Form.Group className="mb-3" controlId="evaluacion">
-              <Form.Label>Evaluación del Primer Corte:</Form.Label>
+              <Form.Label>Evaluación de la Predefensa:</Form.Label>
               <Form.Control
                 type="number"
                 max={5}
@@ -85,7 +85,7 @@ const EventModal = ({ showModal, params }) => {
               )}
             </Form.Group>
             <Form.Group className="mb-3" controlId="recomendaciones">
-              <Form.Label>Recomendaciones del Primer Corte:</Form.Label>
+              <Form.Label>Recomendaciones de Predefensa:</Form.Label>
               <Form.Control
                 as="textarea"
                 rows={3}
@@ -132,4 +132,4 @@ const EventModal = ({ showModal, params }) => {
   );
 };
 
-export default EventModal;
+export default EventPredef;

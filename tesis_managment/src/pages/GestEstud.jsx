@@ -1,7 +1,5 @@
 import { NavLink } from "react-router-dom";
-
 import { Table, Pagination, Button, Container } from "react-bootstrap";
-
 import { useState, useEffect } from "react";
 import { getAllEstudent, deleteEstudent } from "../api/Estudiantes.api";
 import ConfirModal from "../components/modal/ConfirmModal";
