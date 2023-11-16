@@ -6,8 +6,7 @@ import { useForm } from "react-hook-form";
 import { addSegCort } from "../../../api/SegundoCorte";
 // import { getDocument } from "../../../api/Tesis.api";
 
-// eslint-disable-next-line react/prop-types
-const EventModalSegCorte = ({ showModal, params }) => {
+const EventModalSegCorte = ({ showModal, params, loadSegundoCorte }) => {
   const [documentoActual] = useState(params);
   const [show, setShow] = useState(showModal);
   const {
@@ -29,7 +28,7 @@ const EventModalSegCorte = ({ showModal, params }) => {
     formData.append("documento", data.documento[0]);
     formData.append("doc", documentoActual.tesisId);
     await addSegCort(formData);
-    location.reload();
+    loadSegundoCorte();
   });
 
   ///////////////////////////////////////////////////////

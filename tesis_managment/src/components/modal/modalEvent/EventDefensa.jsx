@@ -8,7 +8,7 @@ import { addDefensa } from "../../../api/Defensa";
 // import { getDocument } from "../../../api/Tesis.api";
 
 // eslint-disable-next-line react/prop-types
-const EventDefensa = ({ showModal, params }) => {
+const EventDefensa = ({ showModal, params, loadDefensa }) => {
   const [documentoActual] = useState(params);
   const [show, setShow] = useState(showModal);
   const {
@@ -30,7 +30,7 @@ const EventDefensa = ({ showModal, params }) => {
       doc: documentoActual.tesisId,
     };
     await addDefensa(formData);
-    location.reload();
+    loadDefensa();
   });
 
   ///////////////////////////////////////////////////////

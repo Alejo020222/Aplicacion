@@ -10,7 +10,6 @@ import EventDefensa from "./modal/modalEvent/EventDefensa";
 import { getAllDefensa } from "../api/Defensa";
 import InfoEventDefensa from "./modal/modalEvent/InfoEventDefensa";
 
-// eslint-disable-next-line react/prop-types
 const MenuAcord = ({ params }) => {
   const [tesisId] = useState(params);
   const [primCorte, setPrimCorte] = useState();
@@ -20,46 +19,43 @@ const MenuAcord = ({ params }) => {
 
   const [showModal] = useState(false);
   ////////////////////////////////////////////////////////////////////
-  useEffect(() => {
-    async function PrimerCorte() {
-      const res = await getAllPrimCort();
-      if (res !== undefined) {
-        const event = res.data.find((item) => item.doc == tesisId.tesisId);
-        setPrimCorte(event);
-      }
+  async function loadPrimerCorte() {
+    const res = await getAllPrimCort();
+    if (res !== undefined) {
+      const event = res.data.find((item) => item.doc == tesisId.tesisId);
+      setPrimCorte(event);
     }
-    PrimerCorte();
-  }, [tesisId]);
-  useEffect(() => {
-    async function SegundoCorte() {
-      const res = await getAllSegCort();
-      if (res !== undefined) {
-        const event = res.data.find((item) => item.doc == tesisId.tesisId);
-        setSegCorte(event);
-      }
+  }
+  async function loadSegundoCorte() {
+    const res = await getAllSegCort();
+    if (res !== undefined) {
+      const event = res.data.find((item) => item.doc == tesisId.tesisId);
+      setSegCorte(event);
     }
-    SegundoCorte();
-  }, [tesisId]);
-  useEffect(() => {
-    async function Predefensa() {
-      const res = await getAllPredefensa();
-      if (res !== undefined) {
-        const event = res.data.find((item) => item.doc == tesisId.tesisId);
-        setPredefensa(event);
-      }
+  }
+  async function loadPredefensa() {
+    const res = await getAllPredefensa();
+    if (res !== undefined) {
+      const event = res.data.find((item) => item.doc == tesisId.tesisId);
+      setPredefensa(event);
     }
-    Predefensa();
-  }, [tesisId]);
-  useEffect(() => {
-    async function Defensa() {
-      const res = await getAllDefensa();
-      if (res !== undefined) {
-        const event = res.data.find((item) => item.doc == tesisId.tesisId);
-        setDefensa(event);
-      }
+  }
+  async function loadDefensa() {
+    const res = await getAllDefensa();
+    if (res !== undefined) {
+      const event = res.data.find((item) => item.doc == tesisId.tesisId);
+      setDefensa(event);
     }
-    Defensa();
+  }
+  ////////////////////////////////////////////////////////////////////
+  useEffect(() => {
+    loadPrimerCorte();
+    loadSegundoCorte();
+    loadPredefensa();
+    loadDefensa();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tesisId]);
+
   return (
     <>
       <div className="container border border-3 border-black-subtle bg-opacity-10 rounded-4 shadow-lg p-5">
@@ -87,7 +83,11 @@ const MenuAcord = ({ params }) => {
                   {primCorte ? (
                     <InfoEvent allCortes={primCorte} />
                   ) : (
-                    <EventModal showModal={showModal} params={params} />
+                    <EventModal
+                      showModal={showModal}
+                      params={params}
+                      loadPrimerCorte={loadPrimerCorte}
+                    />
                   )}
                 </div>
               </div>
@@ -114,7 +114,11 @@ const MenuAcord = ({ params }) => {
                   {segCorte ? (
                     <InfoEvent allCortes={segCorte} />
                   ) : (
-                    <EventModalSegCorte showModal={showModal} params={params} />
+                    <EventModalSegCorte
+                      showModal={showModal}
+                      params={params}
+                      loadSegundoCorte={loadSegundoCorte}
+                    />
                   )}
                 </div>
               </div>
@@ -141,7 +145,11 @@ const MenuAcord = ({ params }) => {
                   {predefensa ? (
                     <InfoEvent allCortes={predefensa} />
                   ) : (
-                    <EventPredef showModal={showModal} params={params} />
+                    <EventPredef
+                      showModal={showModal}
+                      params={params}
+                      loadPredefensa={loadPredefensa}
+                    />
                   )}
                 </div>
               </div>
@@ -169,7 +177,11 @@ const MenuAcord = ({ params }) => {
                   {defensa ? (
                     <InfoEventDefensa allCortes={defensa} />
                   ) : (
-                    <EventDefensa showModal={showModal} params={params} />
+                    <EventDefensa
+                      showModal={showModal}
+                      params={params}
+                      loadDefensa={loadDefensa}
+                    />
                   )}
                 </div>
               </div>

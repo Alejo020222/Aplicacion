@@ -7,7 +7,7 @@ import { addPredefensa } from "../../../api/Predefensa";
 // import { getDocument } from "../../../api/Tesis.api";
 
 // eslint-disable-next-line react/prop-types
-const EventPredef = ({ showModal, params }) => {
+const EventPredef = ({ showModal, params, loadPredefensa }) => {
   const [documentoActual] = useState(params);
   const [show, setShow] = useState(showModal);
   const {
@@ -29,7 +29,7 @@ const EventPredef = ({ showModal, params }) => {
     formData.append("documento", data.documento[0]);
     formData.append("doc", documentoActual.tesisId);
     await addPredefensa(formData);
-    location.reload();
+    loadPredefensa();
   });
 
   ///////////////////////////////////////////////////////

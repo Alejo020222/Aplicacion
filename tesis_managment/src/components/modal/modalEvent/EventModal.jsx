@@ -6,8 +6,7 @@ import { addPrimerCort } from "../../../api/PrimerCorte";
 import { useForm } from "react-hook-form";
 // import { getDocument } from "../../../api/Tesis.api";
 
-// eslint-disable-next-line react/prop-types
-const EventModal = ({ showModal, params }) => {
+const EventModal = ({ showModal, params, loadPrimerCorte }) => {
   const [documentoActual] = useState(params);
   const [show, setShow] = useState(showModal);
   const {
@@ -29,10 +28,11 @@ const EventModal = ({ showModal, params }) => {
     formData.append("documento", data.documento[0]);
     formData.append("doc", documentoActual.tesisId);
     await addPrimerCort(formData);
-    location.reload();
+    loadPrimerCorte();
   });
 
   ///////////////////////////////////////////////////////
+
   return (
     <>
       <Button className="col-lg-6 btn-primary" onClick={handleShow}>
