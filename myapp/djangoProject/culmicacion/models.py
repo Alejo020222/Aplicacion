@@ -1,5 +1,6 @@
-from django.contrib.auth.models import User, AbstractUser, Permission, auth
+from django.contrib.auth.models import User, AbstractUser, Permission, auth, BaseUserManager, PermissionsMixin, AbstractBaseUser
 from django.db import models
+import uuid
 from django.core.files.storage import FileSystemStorage
 from django.core.files.uploadedfile import SimpleUploadedFile
 
@@ -28,16 +29,35 @@ class Documento(models.Model):
     def __str__(self):
         return self.nombre
 
+class Usuario(models.Model):
+
+    class Rol(models.TextChoices):
+        ADMINISTRADOR = '1', 'Administrador'
+        PROFESOR = '2', 'Profesor'
+        ESTUDIANTE = '3', 'Estudiante'
+
+
+    username = models.CharField(max_length=30, unique=True, verbose_name="Usuario")
+    password = models.CharField(max_length=30, verbose_name="Contraseña")
+    rol =models.CharField(max_length=1, choices=Rol.choices, default=Rol.ADMINISTRADOR, verbose_name="Rol")
+   
+    class Meta:
+        verbose_name = 'Usuario'
+        verbose_name_plural = 'Usuarios'
+        db_table = 'usuario'
+        ordering = ["id"]
+
+    def __str__(self):
+        return self.username
 
 class Profesor(models.Model):
     nombre = models.CharField(max_length=30, verbose_name='Nombre')
     apellidos = models.CharField(max_length=100, verbose_name='Apellidos')
     categoria = models.CharField(max_length=100, verbose_name='Categoria')
-    titulacion = models.CharField(
-        max_length=100, default=None, verbose_name="Titulacion")
+    titulacion = models.CharField(max_length=100, default=None, verbose_name="Titulacion")
     area = models.CharField(max_length=50, verbose_name='Area')
-    solapin = models.IntegerField(
-        unique=True, default=None, verbose_name="Solapin")
+    solapin = models.IntegerField(unique=True, default=None, verbose_name="Solapin")
+    user_id = models.OneToOneField(Usuario, on_delete=models.CASCADE, default=None, verbose_name="Usuario")
 
     class Meta:
         verbose_name = 'Profesor'
@@ -59,11 +79,10 @@ class Profesor(models.Model):
 class Estudiante(models.Model):
     nombre = models.CharField(max_length=50, verbose_name='Nombre')
     apellidos = models.CharField(max_length=100, verbose_name='Apellidos')
-    carrera = models.CharField(
-        max_length=255, default=' ', verbose_name='Carrera')
+    carrera = models.CharField(max_length=255, default=' ', verbose_name='Carrera')
     year = models.PositiveIntegerField(verbose_name='Año')
-    solapin = models.IntegerField(
-        unique=True, default=None, verbose_name="Solapin")
+    solapin = models.IntegerField(unique=True, default=None, verbose_name="Solapin")
+    userid = models.OneToOneField(Usuario, on_delete=models.CASCADE, default=None, verbose_name="Usuario")
 
     class Meta:
         verbose_name = 'Estudiante'

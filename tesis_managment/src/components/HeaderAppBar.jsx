@@ -106,9 +106,14 @@ const HeaderAppBar = () => {
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
-                  Gestionar Usuarios
+                  Gestionar
                 </a>
                 <ul className="dropdown-menu">
+                  <li>
+                    <NavLink className="dropdown-item" to="/gestUsers">
+                      Gestionar Usuarios
+                    </NavLink>
+                  </li>
                   <li>
                     <NavLink className="dropdown-item" to="/gestEstudent">
                       Gestionar Estudiantes

@@ -1,5 +1,10 @@
 from rest_framework import serializers
-from .models import Documento, Estudiante, Profesor, Tribunal, PrimerCorte, SegundoCorte, Predefensa, Defensa
+from .models import Documento, Estudiante, Profesor, Tribunal, PrimerCorte, SegundoCorte, Predefensa, Defensa, Usuario
+
+class UsuarioSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Usuario
+        fields = '__all__'
 
 class DocumentoSerializer(serializers.ModelSerializer):
     class Meta:

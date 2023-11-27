@@ -8,9 +8,11 @@ import {
 } from "../api/Estudiantes.api";
 import { Form, Button } from "react-bootstrap";
 
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import AlertModal from "./modal/AlertModal";
+import { getAllUsuarios } from "../api/Login";
+import Select from "react-select";
 
 const FormularioEst = () => {
   const {
@@ -18,22 +20,51 @@ const FormularioEst = () => {
     handleSubmit,
     formState: { errors },
     setValue,
+    control,
   } = useForm();
   ///////////////////////////////////////////////////////////////
   const [estudiantes, setEstudiantes] = useState([]);
+  const [usuarios, setUsuarios] = useState([]);
+  const [usuariosOptions, setUsuariosOptions] = useState([]);
+  // const [usuarioActual, setUsuarioActual] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const params = useParams();
   ///////////////////////////////////////////////////////////////
-  useEffect(() => {
-    async function loadPSolapin() {
-      const res = await getAllEstudent();
-      setEstudiantes(res.data);
-    }
-    loadPSolapin();
-  }, [estudiantes]);
+  async function loadUsers() {
+    const res = await getAllUsuarios();
+    setUsuarios(res.data);
+  }
+  async function loadPSolapin() {
+    const res = await getAllEstudent();
+    setEstudiantes(res.data);
+  }
+  // async function loadUsuarios() {
+  //   const res = await getUsuarios(params.id);
+  //   console.log(res.data);
+  //   return res.data.username;
+  // }
+  // async function userState() {
+  //   const res = await params.id;
+  //   setUsuarioActual(res.data.username);
+  // }
   ///////////////////////////////////////////////////////////////
   useEffect(() => {
-    async function loadProfesor() {
+    loadUsers();
+    loadPSolapin();
+  }, []);
+  ///////////////////////////////////////////////////////////////
+  useEffect(() => {
+    const usuariosOptions = usuarios.map((usuarios) => ({
+      value: usuarios.id,
+      label: `${usuarios.username}`,
+    }));
+    setUsuariosOptions(usuariosOptions);
+  }, [usuarios]);
+  // ///////////////////////////////////////////////////////////////
+
+  ///////////////////////////////////////////////////////////////
+  useEffect(() => {
+    async function loadEstudent() {
       if (params.id) {
         const res = await getEstudent(params.id);
         setValue("nombre", res.data.nombre);
@@ -41,11 +72,14 @@ const FormularioEst = () => {
         setValue("carrera", res.data.carrera);
         setValue("year", res.data.year);
         setValue("solapin", res.data.solapin);
+        setValue("userid", res.data.userid);
+        // setUsuarioActual(res.data.userid.label);
+        // console.log(res.data.userid);
       } else {
         console.log("no hay id");
       }
     }
-    loadProfesor();
+    loadEstudent();
   }, [params.id, setValue]);
   ///////////////////////////////////////////////////////////////
   const onSubmit = handleSubmit(async (data) => {
@@ -56,6 +90,7 @@ const FormularioEst = () => {
         carrera: data.carrera,
         year: data.year,
         solapin: data.solapin,
+        userid: data.userid.value,
       };
       await updateEstudent(params.id, formData);
     } else {
@@ -77,6 +112,7 @@ const FormularioEst = () => {
           carrera: data.carrera,
           year: data.year,
           solapin: data.solapin,
+          userid: data.userid.value,
         };
         console.log(formData);
         await addEstudent(formData);
@@ -124,25 +160,51 @@ const FormularioEst = () => {
           )}
         </Form.Group>
 
-        <Form.Group controlId="carrera" className="mt-3">
-          <Form.Label>Carrera del Estudiante:</Form.Label>
-          <Form.Select {...register("carrera", { required: true })}>
-            <option disabled hidden>
-              Seleccione una carrera
-            </option>
-            <option value="Ingenieria en Ciencias Informaticas">
-              Ingenieria en Ciencias Informaticas
-            </option>
-            <option value="Administracion de Redes y Seguridad Informatica">
-              Administracion de Redes y Seguridad Informatica
-            </option>
-          </Form.Select>
-          {errors.carrera && (
-            <Form.Text className="text-danger">
-              Este campo es necesario
-            </Form.Text>
-          )}
-        </Form.Group>
+        <div className="d-flex">
+          <Form.Group controlId="carrera" className="mt-3 col-lg-6 pe-2">
+            <Form.Label>Carrera del Estudiante:</Form.Label>
+            <Form.Select {...register("carrera", { required: true })}>
+              <option disabled hidden>
+                Seleccione una carrera
+              </option>
+              <option value="Ingenieria en Ciencias Informaticas">
+                Ingenieria en Ciencias Informaticas
+              </option>
+              <option value="Administracion de Redes y Seguridad Informatica">
+                Administracion de Redes y Seguridad Informatica
+              </option>
+            </Form.Select>
+            {errors.carrera && (
+              <Form.Text className="text-danger">
+                Este campo es necesario
+              </Form.Text>
+            )}
+          </Form.Group>
+          <Form.Group controlId="userid" className="mt-3 col-lg-6 ps-2">
+            <Form.Label>Usuario del Estudiante:</Form.Label>
+            <Controller
+              name="userid"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <>
+                  <Select
+                    {...field}
+                    options={usuariosOptions}
+                    isSearchable={true}
+                    placeholder="Selecciona un Usuario"
+                    // defaultValue={params.id ? loadUsuarios() : null}
+                  />
+                  {errors.userid && (
+                    <Form.Text className="text-danger">
+                      Este campo es necesario
+                    </Form.Text>
+                  )}
+                </>
+              )}
+            />
+          </Form.Group>
+        </div>
 
         <div className="d-flex">
           <Form.Group controlId="year" className="mt-3 col-lg-6 pe-2">
@@ -174,6 +236,7 @@ const FormularioEst = () => {
             )}
           </Form.Group>
         </div>
+
         <div className="form-group d-flex mt-3 justify-content-end">
           <Button
             type="button"

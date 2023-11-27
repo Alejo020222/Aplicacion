@@ -1,8 +1,13 @@
 from rest_framework import viewsets
-from .serializer import DocumentoSerializer, EstudianteSerializer, ProfesorSerializer, TribunalSerializer, PrimerCorteSerializer, SegundoCorteSerializer, PredefensaSerializer, DefensaSerializer
-from .models import Documento, Profesor, Estudiante, Tribunal, PrimerCorte, SegundoCorte, Predefensa, Defensa
+from .serializer import DocumentoSerializer, EstudianteSerializer, ProfesorSerializer, TribunalSerializer, PrimerCorteSerializer, SegundoCorteSerializer, PredefensaSerializer, DefensaSerializer, UsuarioSerializer
+from .models import Documento, Profesor, Estudiante, Tribunal, PrimerCorte, SegundoCorte, Predefensa, Defensa, Usuario
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
+
+class UsuarioView(viewsets.ModelViewSet):
+    serializer_class = UsuarioSerializer
+    queryset = Usuario.objects.all()
 
 class DocumentoView(viewsets.ModelViewSet):
     serializer_class = DocumentoSerializer

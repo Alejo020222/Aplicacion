@@ -1,5 +1,18 @@
 import { Container, Col, Row, Button, InputGroup } from "react-bootstrap";
+import { useEffect, useState } from "react";
+import { getUsuarios } from "../api/Login";
+
 const LogIn = () => {
+  const [usuarios, setUsuarios] = useState();
+
+  useEffect(() => {
+    async function buscarUser() {
+      const res = await getUsuarios(6);
+      setUsuarios(res.data);
+    }
+    buscarUser();
+  }, []);
+  console.log(usuarios);
   return (
     <>
       <Container fluid className="px-5">

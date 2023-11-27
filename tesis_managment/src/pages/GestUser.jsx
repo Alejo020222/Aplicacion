@@ -1,24 +1,25 @@
 import { NavLink } from "react-router-dom";
 import { Table, Pagination, Button, Container } from "react-bootstrap";
 import { useState, useEffect } from "react";
-import { getAllEstudent, deleteEstudent } from "../api/Estudiantes.api";
 import ConfirModal from "../components/modal/ConfirmModal";
+import { deleteUsuarios, getAllUsuarios } from "../api/Login";
 
-const GestEstud = () => {
+const GestUser = () => {
   const [showModal, setShowModal] = useState(false);
   const [deleteID, setDeleteID] = useState();
   //////////////////////////////////////////////////////////////////
-  const [student, setStudent] = useState([]);
+  const [usuarios, setUsuarios] = useState([]);
   useEffect(() => {
     async function loadStudent() {
-      const res = await getAllEstudent();
-      setStudent(res.data);
+      const res = await getAllUsuarios();
+      setUsuarios(res.data);
     }
     loadStudent();
   }, []);
 
   /////////////////////////////////////////////////////////////
 
+  /////////////////////////////////////////////////////////////
   // Eliminar Profesor con Modal
   const handleShowModal = (id) => {
     console.log(id);
@@ -27,7 +28,7 @@ const GestEstud = () => {
   };
 
   const handleDelete = async () => {
-    await deleteEstudent(deleteID);
+    await deleteUsuarios(deleteID);
     location.reload();
     setShowModal(false);
   };
@@ -39,10 +40,10 @@ const GestEstud = () => {
     setPaginaActual(pagina);
   };
 
-  const totalPaginas = Math.ceil(student.length / elementosPorPagina);
+  const totalPaginas = Math.ceil(usuarios.length / elementosPorPagina);
   const inicio = (paginaActual - 1) * elementosPorPagina;
   const fin = inicio + elementosPorPagina;
-  const datosPaginados = student.slice(inicio, fin);
+  const datosPaginados = usuarios.slice(inicio, fin);
 
   /////////////////////////////////////////////////////////////
 
@@ -60,37 +61,33 @@ const GestEstud = () => {
       }
       <div className="container text-center">
         <NavLink
-          to="/gestEstudent/estudentForm"
+          to="/gestUsers/FormUser"
           className="btn btn-primary col-lg-6 col-md-4"
         >
-          Añadir Estudiante
+          Añadir Usuario
         </NavLink>
       </div>
       <div className="table-responsive mt-4 p-3">
-        <Container className="text-center">
+        <Container className="text-center ">
           <Table bordered striped hover className="mt-4">
             <thead>
               <tr className="table-header">
-                <th>Nombre(s) del Estudiante</th>
-                <th>Apellidos del Estudiante</th>
-                <th>Carrera</th>
-                <th>Año</th>
-                <th>Solapín</th>
-                <th>Acciones</th>
+                <th>ID de Usuario</th>
+                <th>Nombre de Usuario</th>
+                <th>Contraseña</th>
+                <th>Opciones</th>
               </tr>
             </thead>
             <tbody>
-              {datosPaginados.map((estudiante) => (
-                <tr key={estudiante.id}>
-                  <td>{estudiante.nombre}</td>
-                  <td>{estudiante.apellidos}</td>
-                  <td>{estudiante.carrera}</td>
-                  <td>{estudiante.year}</td>
-                  <td>{estudiante.solapin}</td>
+              {datosPaginados.map((usuarios) => (
+                <tr key={usuarios.id}>
+                  <td>{usuarios.id}</td>
+                  <td>{usuarios.username}</td>
+                  <td>{usuarios.password}</td>
                   <td className="d-flex lg-col-6">
                     <NavLink
                       className="btn btn-primary m-2"
-                      to={`/gestEstudent/estudentForm/${estudiante.id}`}
+                      to={`/gestUsers/FormUser/${usuarios.id}`}
                     >
                       Editar
                     </NavLink>
@@ -99,7 +96,7 @@ const GestEstud = () => {
                       variant="danger"
                       className="m-2"
                       onClick={async () => {
-                        handleShowModal(estudiante.id);
+                        handleShowModal(usuarios.id);
                       }}
                     >
                       Eliminar
@@ -132,4 +129,4 @@ const GestEstud = () => {
   );
 };
 
-export default GestEstud;
+export default GestUser;

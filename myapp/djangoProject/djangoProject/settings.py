@@ -83,7 +83,7 @@ WSGI_APPLICATION = 'djangoProject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'culmicacion',
+        'NAME': 'test',
         'USER': 'postgres',
         'PASSWORD': 'Alejo97mb',
         'HOST': '127.0.0.1',
@@ -109,6 +109,8 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+#AUTH_USER_MODEL = 'culmicacion.Usuario'
 
 
 # Internationalization
@@ -140,3 +142,12 @@ CORS_ALLOWED_ORIGINS = [
     " http://localhost:5173"
 
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+}
+
