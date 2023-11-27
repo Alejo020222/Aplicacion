@@ -6,10 +6,11 @@ import {
 } from "../api/Profesores.api";
 import { Form, Button } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
-
-import { useForm } from "react-hook-form";
+import { getAllUsuarios } from "../api/Login";
+import { Controller, useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import AlertModal from "./modal/AlertModal";
+import Select from "react-select";
 
 const FormularioProf = () => {
   const {
@@ -17,19 +18,39 @@ const FormularioProf = () => {
     handleSubmit,
     formState: { errors },
     setValue,
+    control,
   } = useForm();
   /////////////////////////////////////////////////////////////
   const [profesores, setProfesores] = useState([]);
+  const [usuarios, setUsuarios] = useState([]);
+  const [usuariosOptions, setUsuariosOptions] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const params = useParams();
   /////////////////////////////////////////////////////////////
+
+  /////////////////////////////////////////////////////////////
+  async function loadPSolapin() {
+    const res = await getAllProfesor();
+    setProfesores(res.data);
+  }
+  async function loadUsers() {
+    const res = await getAllUsuarios();
+    setUsuarios(res.data);
+  }
+  ///////////////////////////////////////////////////////////
+
   useEffect(() => {
-    async function loadPSolapin() {
-      const res = await getAllProfesor();
-      setProfesores(res.data);
-    }
     loadPSolapin();
-  }, [profesores]);
+    loadUsers();
+  }, []);
+
+  useEffect(() => {
+    const usuariosOptions = usuarios.map((usuarios) => ({
+      value: usuarios.id,
+      label: `${usuarios.username}`,
+    }));
+    setUsuariosOptions(usuariosOptions);
+  }, [usuarios]);
   /////////////////////////////////////////////////////////////
 
   useEffect(() => {
@@ -42,6 +63,7 @@ const FormularioProf = () => {
         setValue("titulacion", res.data.titulacion);
         setValue("area", res.data.area);
         setValue("solapin", res.data.solapin);
+        setValue("user_id", res.data.use_rid);
       } else {
         console.log("no hay id");
       }
@@ -60,6 +82,7 @@ const FormularioProf = () => {
         titulacion: data.titulacion,
         area: data.area,
         solapin: data.solapin,
+        user_id: data.user_id.value,
       };
       await updateProfesor(params.id, formData);
       navigate("/gestProfesor");
@@ -83,6 +106,7 @@ const FormularioProf = () => {
           titulacion: data.titulacion,
           area: data.area,
           solapin: data.solapin,
+          user_id: data.user_id.value,
         };
         console.log(formData);
         await addProfesor(formData);
@@ -132,6 +156,32 @@ const FormularioProf = () => {
             </Form.Text>
           )}
         </Form.Group>
+
+        <Form.Group controlId="user_id" className="mt-3">
+          <Form.Label>Usuario del Profesor:</Form.Label>
+          <Controller
+            name="user_id"
+            control={control}
+            rules={{ required: true }}
+            render={({ field }) => (
+              <>
+                <Select
+                  {...field}
+                  options={usuariosOptions}
+                  isSearchable={true}
+                  placeholder="Selecciona un Usuario"
+                  // defaultValue={params.id ? loadUsuarios() : null}
+                />
+                {errors.user_id && (
+                  <Form.Text className="text-danger">
+                    Este campo es necesario
+                  </Form.Text>
+                )}
+              </>
+            )}
+          />
+        </Form.Group>
+
         <div className="d-flex">
           <Form.Group controlId="categoria" className="mt-3 col-lg-6 pe-2">
             <Form.Label>Categoria:</Form.Label>

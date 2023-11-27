@@ -53,6 +53,8 @@ const AboutSection = () => {
               </Row>
               <Button
                 href="https://www.uci.cu/entre-los-mejores-blogs-de-software-libre-humanos-de-la-uci"
+                target="_blank"
+                rel="noopener noreferrer" // Agrega esto por razones de seguridad
                 className="btn btn-primary mt-1"
               >
                 Visita nuestro Blog

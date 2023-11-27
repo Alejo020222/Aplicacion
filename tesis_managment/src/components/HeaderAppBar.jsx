@@ -80,58 +80,72 @@ const HeaderAppBar = () => {
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              <li className="nav-item mx-2">
+            <ul className="navbar-nav ms-auto  mb-lg-auto mx-5 px-5">
+              <li className="nav-item mx-2 px-2">
                 <NavLink
-                  className="nav-link active ps-5"
+                  className="btn btn-outline-primary"
                   aria-current="page"
                   to="/repositorio"
                 >
                   Documento
                 </NavLink>
               </li>
-              <li className="nav-item mx-2">
+              <li className="nav-item mx-2 px-2">
                 <NavLink
-                  className="nav-link active btn btn-light"
+                  className="btn btn-outline-primary"
                   aria-current="page"
                   to="/tesis"
                 >
-                  Agregar Tesis
+                  Gestiona Tesis
                 </NavLink>
               </li>
-              <li className="nav-item dropdown">
+              <li className="nav-item mx-2 px-2">
+                <NavLink
+                  className="btn btn-outline-primary"
+                  aria-current="page"
+                  to="/gestUsers"
+                >
+                  Gestiona Usuarios
+                </NavLink>
+              </li>
+              <li className="nav-item dropdown px-2">
                 <a
-                  className="nav-link active dropdown-toggle mx-2 h2"
+                  className="nav-link active dropdown-toggle mx-2 h2 btn-outline-primary"
                   role="button"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
-                  Gestionar
+                  Administra y Organiza
                 </a>
-                <ul className="dropdown-menu">
+                <ul className="dropdown-menu ">
                   <li>
-                    <NavLink className="dropdown-item" to="/gestUsers">
-                      Gestionar Usuarios
+                    <NavLink
+                      className="dropdown-item text-center"
+                      to="/gestEstudent"
+                    >
+                      Estudiantes
                     </NavLink>
                   </li>
                   <li>
-                    <NavLink className="dropdown-item" to="/gestEstudent">
-                      Gestionar Estudiantes
+                    <NavLink
+                      className="dropdown-item text-center"
+                      to="/gestProfesor"
+                    >
+                      Profesores
                     </NavLink>
                   </li>
                   <li>
-                    <NavLink className="dropdown-item" to="/gestProfesor">
-                      Gestionar Profesores
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink className="dropdown-item" to="/gestTribunal">
-                      Gestionar Tribunales
+                    <NavLink
+                      className="dropdown-item text-center"
+                      to="/gestTribunal"
+                    >
+                      Tribunales
                     </NavLink>
                   </li>
                 </ul>
               </li>
             </ul>
+
             <form className="d-flex" role="search">
               <input
                 className="form-control me-2"
