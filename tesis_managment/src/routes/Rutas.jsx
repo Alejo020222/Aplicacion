@@ -12,6 +12,7 @@ import FormularioEst from "../components/FormularioEst";
 import FormularioProf from "../components/FormularioProf";
 import GestTrib from "../pages/GestTrib";
 import FormularioTrib from "../components/FormularioTrib";
+import LogIn from "../pages/LogIn";
 
 function Rutas() {
   return (
@@ -20,6 +21,8 @@ function Rutas() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route path="/" element={<Home />} />
+            {/* Estudent Routes /////////////////////////////////////////////////*/}
+            <Route path="/login" element={<LogIn />} />
             {/* Estudent Routes /////////////////////////////////////////////////*/}
             <Route path="/gestEstudent" element={<GestEstud />} />
             <Route
