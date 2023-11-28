@@ -26,7 +26,7 @@ const FormularioEst = () => {
   const [estudiantes, setEstudiantes] = useState([]);
   const [usuarios, setUsuarios] = useState([]);
   const [usuariosOptions, setUsuariosOptions] = useState([]);
-  // const [usuarioActual, setUsuarioActual] = useState([]);
+  const [usuarioActual, setUsuarioActual] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const params = useParams();
   ///////////////////////////////////////////////////////////////
@@ -38,15 +38,6 @@ const FormularioEst = () => {
     const res = await getAllEstudent();
     setEstudiantes(res.data);
   }
-  // async function loadUsuarios() {
-  //   const res = await getUsuarios(params.id);
-  //   console.log(res.data);
-  //   return res.data.username;
-  // }
-  // async function userState() {
-  //   const res = await params.id;
-  //   setUsuarioActual(res.data.username);
-  // }
   ///////////////////////////////////////////////////////////////
   useEffect(() => {
     loadUsers();
@@ -72,15 +63,14 @@ const FormularioEst = () => {
         setValue("carrera", res.data.carrera);
         setValue("year", res.data.year);
         setValue("solapin", res.data.solapin);
-        setValue("userid", res.data.userid);
-        // setUsuarioActual(res.data.userid.label);
-        // console.log(res.data.userid);
+        // setValue("userid", usuarioActual);
+        setUsuarioActual(res.data.userid);
       } else {
         console.log("no hay id");
       }
     }
     loadEstudent();
-  }, [params.id, setValue]);
+  }, [params.id, setValue, usuarioActual]);
   ///////////////////////////////////////////////////////////////
   const onSubmit = handleSubmit(async (data) => {
     if (params.id) {
@@ -193,7 +183,15 @@ const FormularioEst = () => {
                     options={usuariosOptions}
                     isSearchable={true}
                     placeholder="Selecciona un Usuario"
-                    // defaultValue={params.id ? loadUsuarios() : null}
+                    // defaultValue={usuariosOptions.usuarioActual}
+                    value={usuariosOptions.find(
+                      (option) => option.value === usuarioActual
+                    )}
+                    onChange={(selectedOption) => {
+                      field.onChange(selectedOption); // Actualiza el valor del formulario
+                      setUsuarioActual(selectedOption.value); // Actualiza el usuarioActual en el estado local
+                      // Puedes agregar lógica adicional si es necesario
+                    }}
                   />
                   {errors.userid && (
                     <Form.Text className="text-danger">

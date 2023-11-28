@@ -24,6 +24,7 @@ const FormularioProf = () => {
   const [profesores, setProfesores] = useState([]);
   const [usuarios, setUsuarios] = useState([]);
   const [usuariosOptions, setUsuariosOptions] = useState([]);
+  // const [usuarioactual, setUsuarioActual] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const params = useParams();
   /////////////////////////////////////////////////////////////

@@ -61,7 +61,12 @@ const HeaderAppBar = () => {
       {/* <!-- Topbar End -->
 
     <!-- Navbar Start --> */}
-      <nav className="navbar navbar-expand-lg mb-5 bg-body-tertiary navbar-expand-lg bg-light navbar-light shadow-lg">
+      <nav
+        className="navbar navbar-expand-lg mb-5 bg-body-tertiary navbar-expand-lg bg-light navbar-light shadow-lg"
+        style={{
+          background: "radial-gradient(transparent, #ebeef3)", // Corregí la sintaxis aquí
+        }}
+      >
         <div className="container-fluid">
           <NavLink className="navbar-brand text-primary" to="/">
             <h1>
@@ -87,7 +92,7 @@ const HeaderAppBar = () => {
                   aria-current="page"
                   to="/repositorio"
                 >
-                  Documento
+                  Revisa tu Documento
                 </NavLink>
               </li>
               <li className="nav-item mx-2 px-2">
@@ -157,6 +162,11 @@ const HeaderAppBar = () => {
                 Buscar
               </button>
             </form>
+            <div>
+              <NavLink className="btn btn-primary px-2 mx-2" to={"/login"}>
+                Autenticate
+              </NavLink>
+            </div>
           </div>
         </div>
       </nav>
