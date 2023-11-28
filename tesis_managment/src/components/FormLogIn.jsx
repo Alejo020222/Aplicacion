@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import { getAllUsuarios } from "../api/Login";
+import { getAllUsuarios, getUsuarios } from "../api/Login";
 import { useForm } from "react-hook-form";
 import AlertModal from "./modal/AlertModal";
 import { useNavigate } from "react-router-dom";
@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 const FormLogIn = () => {
   const navigate = useNavigate();
   const [usuarios, setUsuarios] = useState([]);
+  const [userId, setUserId] = useState();
   const [showModal, setShowModal] = useState(false);
   const {
     register,
@@ -18,6 +19,10 @@ const FormLogIn = () => {
   async function buscarUser() {
     const res = await getAllUsuarios();
     setUsuarios(res.data);
+  }
+  async function loadUserId() {
+    const res = await getUsuarios(userId);
+    return res.data.rol;
   }
 
   //////////////////////////////////////////////////
@@ -37,22 +42,18 @@ const FormLogIn = () => {
         data.password == usuarios[i].password
       ) {
         errorlog = true;
-        console.log("validando");
+        setUserId(usuarios[i].id);
         break;
       }
     }
     if (!errorlog) {
       setShowModal(true);
-      console.log("El usuario o la contraseña es incorrecta!");
     } else {
-      console.log("entro");
-      const objetoJSON = JSON.stringify(data);
+      const objetoJSON = JSON.stringify(loadUserId());
       localStorage.setItem("miObjeto", objetoJSON);
-
       navigate("/");
     }
   });
-
   //////////////////////////////////////////////////
   return (
     <>

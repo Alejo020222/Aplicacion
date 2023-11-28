@@ -28,6 +28,46 @@ const Formulario = () => {
     setValue,
   } = useForm();
 
+  //////////////////////////////////////////////////////////////////////////
+
+  async function loadEstudent() {
+    const res = await getAllEstudent();
+    setDataEstudent(res.data);
+  }
+
+  async function loadProfesor() {
+    const res = await getAllProfesor();
+    setDataProfesor(res.data);
+  }
+  async function loadTribunal() {
+    const res = await getAllTribunal();
+    setDataTribunalr(res.data);
+  }
+
+  //////////////////////////////////////////////////////////////////////////
+  useEffect(() => {
+    loadEstudent();
+    loadTribunal();
+    loadProfesor();
+  }, []);
+  useEffect(() => {
+    const estudiantesOptions = dataEstudent.map((estudiante) => ({
+      value: estudiante.id,
+      label: `${estudiante.nombre} ${estudiante.apellidos}`,
+    }));
+    const profesorOptions = dataProfesor.map((profesor) => ({
+      value: profesor.id,
+      label: `${profesor.nombre} ${profesor.apellidos}`,
+    }));
+    const tribunalOptions = dataTribunal.map((tribunal) => ({
+      value: tribunal.id,
+      label: `${tribunal.presidente}, ${tribunal.secretario}, ${tribunal.vocal}`,
+    }));
+    setEstudiantesOptions(estudiantesOptions);
+    setProfesorOptions(profesorOptions);
+    setTribunalOptions(tribunalOptions);
+  }, [dataEstudent, dataProfesor, dataTribunal]);
+
   useEffect(() => {
     async function buscartesis() {
       const res = await getDocument(params.tesisId);
@@ -39,51 +79,6 @@ const Formulario = () => {
       buscartesis();
     }
   }, [params.tesisId]);
-
-  //////////////////////////////////////////////////////////////////////////
-
-  useEffect(() => {
-    async function loadEstudent() {
-      const res = await getAllEstudent();
-      setDataEstudent(res.data);
-    }
-    loadEstudent();
-  }, []);
-  useEffect(() => {
-    async function loadProfesor() {
-      const res = await getAllProfesor();
-      setDataProfesor(res.data);
-    }
-    loadProfesor();
-  }, []);
-  useEffect(() => {
-    async function loadTribunal() {
-      const res = await getAllTribunal();
-      setDataTribunalr(res.data);
-    }
-    loadTribunal();
-  }, []);
-  useEffect(() => {
-    const estudiantesOptions = dataEstudent.map((estudiante) => ({
-      value: estudiante.id,
-      label: `${estudiante.nombre} ${estudiante.apellidos}`,
-    }));
-    setEstudiantesOptions(estudiantesOptions);
-  }, [dataEstudent]);
-  useEffect(() => {
-    const profesorOptions = dataProfesor.map((profesor) => ({
-      value: profesor.id,
-      label: `${profesor.nombre} ${profesor.apellidos}`,
-    }));
-    setProfesorOptions(profesorOptions);
-  }, [dataProfesor]);
-  useEffect(() => {
-    const tribunalOptions = dataTribunal.map((tribunal) => ({
-      value: tribunal.id,
-      label: `${tribunal.presidente}, ${tribunal.secretario}, ${tribunal.vocal}`,
-    }));
-    setTribunalOptions(tribunalOptions);
-  }, [dataTribunal]);
 
   //////////////////////////////////////////////////////////////////////////
   useEffect(() => {
